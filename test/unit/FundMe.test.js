@@ -64,7 +64,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
 
                   // Act
                   const transactionResponse = await fundMe.withdraw()
-                  const transactionReceipt = await transactionResponse.wait()
+                  const transactionReceipt = await transactionResponse.wait() //transactionResponse is a receipt (shou ju)
                   const { gasUsed, effectiveGasPrice } = transactionReceipt
                   const gasCost = gasUsed.mul(effectiveGasPrice)
 
@@ -90,6 +90,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
                   // Arrange
                   const accounts = await ethers.getSigners()
                   for (i = 1; i < 6; i++) {
+                      //account[0] is the deployer, so skip
                       const fundMeConnectedContract = await fundMe.connect(
                           accounts[i]
                       )
@@ -122,7 +123,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
                           .toString(),
                       endingDeployerBalance.add(withdrawGasCost).toString()
                   )
-                  // Make a getter for storage variables
+                  // Make a getter for storage variables, make sure the array has been reseted
                   await expect(fundMe.getFunder(0)).to.be.reverted
 
                   for (i = 1; i < 6; i++) {
